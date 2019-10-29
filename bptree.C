@@ -401,7 +401,7 @@ void BPTree::insertInternal(int x, Node* cursor, Node* child)
 		{
 			//recursion
 			//find depth first search to find parent of cursor
-			insertInternal(cursor->key[cursor->size] ,findParent(root,cursor) ,cursor);
+			insertInternal(cursor->key[cursor->size] ,findParent(root,cursor) ,newInternal);
 		}
 	}
 }
