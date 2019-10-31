@@ -424,6 +424,7 @@ Node* BPTree::findParent(Node* cursor, Node* child)
 		else
 		{
 			parent = findParent(cursor->ptr[i],child);
+			if(parent!=NULL)return parent;
 		}
 	}
 	return parent;
@@ -596,7 +597,7 @@ void BPTree::remove(int x)
 			cursor->size += rightNode->size;
 			cursor->ptr[cursor->size] = rightNode->ptr[rightNode->size];
 			cout<<"Merging two leaf nodes\n";
-			removeInternal(parent->key[leftSibling+1],parent,rightNode);// delete parent node key
+			removeInternal(parent->key[rightSibling-1],parent,rightNode);// delete parent node key
 			delete[] rightNode->key;
 			delete[] rightNode->ptr;
 			delete rightNode;
@@ -669,6 +670,7 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child)
 	}
 	cout<<"Underflow in internal node!\n";
 	//underflow, try to transfer first
+	if(cursor==root)return;
 	Node* parent = findParent(root, cursor);
 	int leftSibling, rightSibling;
 	//finding left n right sibling of cursor
@@ -746,7 +748,7 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child)
 		{
 			leftNode->key[i] = cursor->key[j];
 		}
-		for(int i = leftNode->size+1, j = 0; j < cursor->size; j++)
+		for(int i = leftNode->size+1, j = 0; j < cursor->size+1; j++)
 		{
 			leftNode->ptr[i] = cursor->ptr[j];
 			cursor->ptr[j] = NULL;
@@ -762,12 +764,12 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child)
 	{
 		//cursor + parent key + rightnode
 		Node *rightNode = parent->ptr[rightSibling];
-		cursor->key[cursor->size] = parent->key[leftSibling];
+		cursor->key[cursor->size] = parent->key[rightSibling-1];
 		for(int i = cursor->size+1, j = 0; j < rightNode->size; j++)
 		{
 			cursor->key[i] = rightNode->key[j];
 		}
-		for(int i = cursor->size+1, j = 0; j < rightNode->size; j++)
+		for(int i = cursor->size+1, j = 0; j < rightNode->size+1; j++)
 		{
 			cursor->ptr[i] = rightNode->ptr[j];
 			rightNode->ptr[j] = NULL;
@@ -775,7 +777,7 @@ void BPTree::removeInternal(int x, Node* cursor, Node* child)
 		cursor->size += rightNode->size+1;
 		rightNode->size = 0;
 		//delete cursor
-		removeInternal(parent->key[leftSibling], parent, rightNode);
+		removeInternal(parent->key[rightSibling-1], parent, rightNode);
 		cout<<"Merged with right sibling\n";
 	}
 }
