@@ -177,7 +177,7 @@ void BPTree::search(int x)
 	else
 	{
 		Node* cursor = root;
-		//in the following while loop, cursor will will travel to the leaf node possibly consisting the key
+		//in the following while loop, cursor will travel to the leaf node possibly consisting the key
 		while(cursor->IS_LEAF == false)
 		{
 			for(int i = 0; i < cursor->size; i++)
@@ -221,7 +221,7 @@ void BPTree::insert(int x)
 	{
 		Node* cursor = root;
 		Node* parent;
-		//in the following while loop, cursor will will travel to the leaf node possibly consisting the key
+		//in the following while loop, cursor will travel to the leaf node possibly consisting the key
 		while(cursor->IS_LEAF == false)
 		{
 			parent = cursor;
@@ -540,7 +540,7 @@ void BPTree::remove(int x)
 				return;
 			}
 		}
-		if(rightSibling <= parent->size)//chech if right sibling exist
+		if(rightSibling <= parent->size)//check if right sibling exist
 		{
 			Node *rightNode = parent->ptr[rightSibling];
 			//check if it is possible to transfer
